@@ -1,0 +1,2 @@
+# rmqcli
+RabbitMQ Client
