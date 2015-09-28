@@ -100,7 +100,9 @@ namespace RMQCLI {
                             if (status.Status != System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.NoError) {
                                 // If there are any other errors in the certificate chain, the certificate is invalid,
                                 // so the method returns false.
-                                return false;
+                                //return false;
+                                // allow certificate chain errors
+                                return true;
                             }
                         }
                     }
@@ -112,7 +114,10 @@ namespace RMQCLI {
                 return true;
             } else {
                 // In all other cases, return false.
-                return false;
+                //return false;
+                //
+                // allow all other certificate errors
+                return true;
             }
         }
                 
@@ -146,10 +151,7 @@ namespace RMQCLI {
                 IProtocol protocol = Protocols.AMQP_0_9_1;
                 IConnection conn = factory.CreateConnection();
                 IModel channel = conn.CreateModel();
-                const bool durable = true;
                 channel.QueueDeclarePassive(queueName);
-                channel.QueueDeclare(queueName, durable, false, false, null);
-
                 // Disable AutoAcknowledgements. This way a broker will keep items in the queue
                 const bool noAck = false;
                 BasicGetResult result = channel.BasicGet(queueName, noAck);

@@ -100,7 +100,10 @@ namespace RMQCLI {
                             if (status.Status != System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.NoError) {
                                 // If there are any other errors in the certificate chain, the certificate is invalid,
                                 // so the method returns false.
-                                return false;
+                                // return false;
+
+                                // allow certificate chain errors
+                                return true;
                             }
                         }
                     }
@@ -112,7 +115,10 @@ namespace RMQCLI {
                 return true;
             } else {
                 // In all other cases, return false.
-                return false;
+                // return false;
+
+                // allow all other certificate errors
+                return true;
             }
         }
                 
